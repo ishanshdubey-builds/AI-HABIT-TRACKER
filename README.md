@@ -14,11 +14,12 @@ AI Habit Tracker is a full-stack web application designed to make habit tracking
 
 Users can create and manage habits, record daily progress, monitor their consistency through streaks and visual analytics, and use AI-powered tools for personalized insights and recommendations.
 
-The project combines traditional habit tracking with AI to help users understand their progress and develop better routines.
+The project combines traditional habit tracking with AI to help users understand their progress and develop better routines. It also includes a research dashboard for exploring statistical findings from a habit-related dataset.
 
 ## Features
 
 ### Authentication
+
 - User registration and login
 - JWT-based authentication
 - Password hashing using bcrypt
@@ -26,6 +27,7 @@ The project combines traditional habit tracking with AI to help users understand
 - User profile management
 
 ### Habit Management
+
 - Create, edit, and delete habits
 - Archive and restore habits
 - Organize habits by category
@@ -34,6 +36,7 @@ The project combines traditional habit tracking with AI to help users understand
 - Reorder habits
 
 ### Daily Habit Tracking
+
 - Mark habits as completed
 - Undo completed habits
 - Track daily progress
@@ -42,6 +45,7 @@ The project combines traditional habit tracking with AI to help users understand
 - Visualize consistency using a 90-day heatmap
 
 ### Streak Tracking
+
 - Track current streaks
 - Monitor longest streaks
 - View habit-specific statistics
@@ -49,6 +53,7 @@ The project combines traditional habit tracking with AI to help users understand
 - Get AI-assisted streak recovery plans
 
 ### Dashboard and Analytics
+
 - View daily habit progress
 - Monitor habit completion
 - Analyze weekly performance
@@ -60,34 +65,53 @@ The project combines traditional habit tracking with AI to help users understand
 ### AI-Powered Features
 
 **AI Weekly Report**
+
 - Generate personalized weekly habit reports
 - Review recent habit performance
 - Identify areas for improvement
 - Receive AI-generated feedback and encouragement
 
 **AI Habit Suggestions**
+
 - Get personalized habit recommendations
 - Answer questions about personal goals and productivity
 - Receive suggested habits with descriptions and categories
 - Add recommended habits to your habit list
 
 **AI Habit Analysis Chat**
+
 - Interact with an AI assistant
 - Ask questions about habit progress
 - Receive personalized responses based on habit activity
 
 **AI Streak Recovery Coach**
+
 - Get personalized plans for recovering from broken streaks
 - Receive practical suggestions for restarting habits
 - Follow a structured recovery plan
 
 **AI Morning Motivation**
+
 - Generate personalized motivational messages
 - Receive encouragement based on habit activity and progress
+
+### Research Dashboard
+
+- View descriptive statistics for research variables
+- Explore Spearman correlations involving hope, depression, life satisfaction, and control
+- Review mixed-effects model estimates, confidence intervals, and p-values
+- Compare within-person and between-person associations
+- View visual summaries of the statistical results
+- Explore explanatory notes about the findings
+
+The research dashboard is available at the protected `/research` route after signing in. Its results are served by the backend endpoint `GET /api/research/results`.
+
+**Research note:** The dashboard presents statistical findings from a separate habit-related dataset. Associations do not establish causation, and the results do not prove that using this application improves mental health or wellbeing.
 
 ## Tech Stack
 
 ### Frontend
+
 - React
 - Vite
 - Tailwind CSS
@@ -102,6 +126,7 @@ The project combines traditional habit tracking with AI to help users understand
 - canvas-confetti
 
 ### Backend
+
 - Node.js
 - Express.js
 - MongoDB
@@ -112,8 +137,15 @@ The project combines traditional habit tracking with AI to help users understand
 - CORS
 
 ### Artificial Intelligence
+
 - Google Gemini API
 - @google/genai
+
+### Research Dashboard
+
+- React-based dashboard and charts
+- JSON-based research results
+- Express REST API integration
 
 ## Project Structure
 
@@ -144,7 +176,11 @@ AI-HABIT-TRACKER/
 │   │   ├── ai.js
 │   │   ├── auth.js
 │   │   ├── habits.js
-│   │   └── log.js
+│   │   ├── log.js
+│   │   └── researchRoutes.js
+│   │
+│   ├── data/
+│   │   └── research_results.json
 │   │
 │   ├── utils/
 │   │   ├── aiService.js
@@ -158,6 +194,8 @@ AI-HABIT-TRACKER/
 │   └── ai-habit-tracker-ui-boilerplate-code/
 │       ├── public/
 │       ├── src/
+│       │   ├── ResearchDashboard.jsx
+│       │   ├── ResearchDashboard.css
 │       │   ├── api/
 │       │   ├── assets/
 │       │   ├── components/
@@ -230,7 +268,7 @@ GEMINI_MODEL=gemini-2.5-flash
 
 Replace the placeholder values with your actual credentials.
 
-**Important:** Never commit your `.env` file or expose your API keys and database credentials.
+**Important:** Never commit your `.env` file or expose your API keys, JWT secrets, or database credentials.
 
 Start the backend development server:
 
@@ -302,7 +340,7 @@ Open this URL in your browser to access the application.
 
 ## API Overview
 
-The backend provides REST API endpoints for authentication, habit management, habit logs, and AI-powered features.
+The backend provides REST API endpoints for authentication, habit management, habit logs, AI-powered features, and research results.
 
 ### Authentication
 
@@ -345,6 +383,12 @@ The backend provides REST API endpoints for authentication, habit management, ha
 | POST | `/api/ai/recovery-plan` | Generate a streak recovery plan |
 | POST | `/api/ai/chat` | Chat with the AI assistant |
 | GET | `/api/ai/morning` | Generate morning motivation |
+
+### Research
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/research/results` | Retrieve statistical results for the research dashboard |
 
 ### Health Check
 
@@ -408,36 +452,49 @@ A unique index helps prevent duplicate completion records for the same user, hab
 
 ### AIInsight
 
-Stores AI-generated insights and related metadata, including different insight types such as weekly reports, suggestions, recovery plans, chat, and morning motivation.
+Stores AI-generated insights and related metadata, including weekly reports, suggestions, recovery plans, chat, and morning motivation.
 
 ## Application Architecture
 
 The application follows a client-server architecture.
 
 ```text
-                 User
-                   |
-                   v
-          React Frontend
-                   |
-                   | Axios / REST API
-                   |
-                   v
-           Express Backend
-                   |
-          +--------+--------+
-          |        |        |
-          v        v        v
-      MongoDB   JWT Auth   AI Service
-                            |
-                            v
-                       Gemini API
-                            |
-                            v
-                    AI-generated output
+                  User
+                    |
+                    v
+             React Frontend
+                    |
+                    | Axios / REST API
+                    v
+             Express Backend
+              /      |      \
+             v       v       v
+         MongoDB   JWT Auth  AI Service
+                               |
+                               v
+                           Gemini API
+
+Research Dashboard
+        |
+        v
+GET /api/research/results
+        |
+        v
+research_results.json
 ```
 
-The React frontend communicates with the Express backend through REST API requests. The backend handles authentication, application logic, database operations, and requests to the Gemini API.
+The React frontend communicates with the Express backend through REST API requests. The backend handles authentication, application logic, database operations, and requests to the Gemini API. The research dashboard retrieves its statistical results through the research API endpoint.
+
+## Research Results and Limitations
+
+The research dashboard presents descriptive statistics, Spearman correlations, and mixed-effects model estimates calculated for a separate habit-related dataset. Some analyses use fewer observations because of missing values.
+
+- Correlations indicate associations, not causation.
+- Within-person and between-person estimates describe different relationships and should not be treated as interchangeable.
+- Results depend on the dataset, variables, and model specifications.
+- The analyses do not establish that this application itself causes improvements in mental health or wellbeing.
+
+For academic work, cite the original dataset and the statistical methods described in the accompanying research report.
 
 ## Security
 
@@ -450,7 +507,7 @@ The application uses several security mechanisms:
 - Environment variables for sensitive configuration
 - CORS configuration
 
-For security, keep your API keys, database credentials, and JWT secrets private.
+For security, keep API keys, database credentials, and JWT secrets private. Example environment files should contain placeholder values only.
 
 ## Future Improvements
 
@@ -469,4 +526,3 @@ Potential improvements for future development include:
 **Ishansh Dubey**
 
 - GitHub: [@ishanshdubey-builds](https://github.com/ishanshdubey-builds)
-
