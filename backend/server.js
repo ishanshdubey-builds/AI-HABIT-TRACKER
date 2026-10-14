@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.js";
 import habitRoutes from "./routes/habits.js";
 import logRoutes from "./routes/log.js";
 import aiRoutes from "./routes/ai.js";
+import researchRoutes from "./routes/researchRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
@@ -45,6 +46,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/habits", habitRoutes);
 app.use("/api/logs", logRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/research", researchRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -9,6 +9,7 @@ import Insights from "./pages/Insights.jsx";
 import Stats from "./pages/Stats.jsx";
 import AppLayout from "./components/AppLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import ResearchDashboard from "./ResearchDashboard.jsx";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <Route path="/weekly" element={<Weekly />} />
         <Route path="/insights" element={<Insights />} />
         <Route path="/stats" element={<Stats />} />
+        <Route path="/research" element={<ResearchDashboard />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

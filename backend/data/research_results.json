@@ -1,0 +1,198 @@
+{
+  "dataset": "The Power of Small Steps",
+  "source": "https://doi.org/10.5281/zenodo.20715366",
+  "analysis_type": "Secondary-data exploratory analysis",
+  "descriptive_statistics": {
+    "HOPE_T": {
+      "count": 878.0,
+      "mean": 2.850322703113136,
+      "std": 0.6503551765831365,
+      "min": 1.0,
+      "25%": 2.5,
+      "50%": 3.0,
+      "75%": 3.25,
+      "max": 4.0
+    },
+    "DEPRESSION_T": {
+      "count": 878.0,
+      "mean": 1.84345735256897,
+      "std": 0.6751040335507802,
+      "min": 1.0,
+      "25%": 1.3333333333333333,
+      "50%": 1.6666666666666667,
+      "75%": 2.0833333333333335,
+      "max": 4.0
+    },
+    "SATISFACTION_T": {
+      "count": 878.0,
+      "mean": 5.03507972665148,
+      "std": 1.2556884830332822,
+      "min": 1.0,
+      "25%": 4.333333333333333,
+      "50%": 5.333333333333333,
+      "75%": 6.0,
+      "max": 7.0
+    },
+    "CONTROL": {
+      "count": 818.0,
+      "mean": 6.511002444987775,
+      "std": 3.014124436299387,
+      "min": 1.0,
+      "25%": 4.0,
+      "50%": 7.0,
+      "75%": 9.0,
+      "max": 10.0
+    }
+  },
+  "correlations": [
+    {
+      "variable_1": "HOPE_T",
+      "variable_2": "DEPRESSION_T",
+      "n": 878,
+      "spearman_rho": -0.3424438686190292,
+      "p_value": 1.4635764219450177e-25
+    },
+    {
+      "variable_1": "HOPE_T",
+      "variable_2": "SATISFACTION_T",
+      "n": 878,
+      "spearman_rho": 0.5057320991675961,
+      "p_value": 3.421737278471952e-58
+    },
+    {
+      "variable_1": "HOPE_T",
+      "variable_2": "CONTROL",
+      "n": 818,
+      "spearman_rho": 0.5803044783143422,
+      "p_value": 8.408330483551112e-75
+    },
+    {
+      "variable_1": "DEPRESSION_T",
+      "variable_2": "SATISFACTION_T",
+      "n": 878,
+      "spearman_rho": -0.4823706611202249,
+      "p_value": 2.316974771711912e-52
+    },
+    {
+      "variable_1": "DEPRESSION_T",
+      "variable_2": "CONTROL",
+      "n": 818,
+      "spearman_rho": -0.24247194496796767,
+      "p_value": 2.073901123348851e-12
+    },
+    {
+      "variable_1": "SATISFACTION_T",
+      "variable_2": "CONTROL",
+      "n": 818,
+      "spearman_rho": 0.3497522187688224,
+      "p_value": 6.002153778270516e-25
+    }
+  ],
+  "mixed_effects_models": {
+    "HOPE_T": {
+      "converged": true,
+      "observations": 818,
+      "participants": 60,
+      "coefficients": {
+        "Intercept": {
+          "estimate": 1.7022321293604512,
+          "standard_error": 0.17524559337173196,
+          "p_value": 2.6434483345242297e-22,
+          "ci_lower": 1.3587570779025053,
+          "ci_upper": 2.045707180818397
+        },
+        "control_within": {
+          "estimate": 0.11290111172661876,
+          "standard_error": 0.006099342273275587,
+          "p_value": 1.7031142659868668e-76,
+          "ci_lower": 0.10094662054161595,
+          "ci_upper": 0.12485560291162158
+        },
+        "control_between": {
+          "estimate": 0.16693557448050458,
+          "standard_error": 0.0257137683184992,
+          "p_value": 8.4665105862187e-11,
+          "ci_lower": 0.11653751466943908,
+          "ci_upper": 0.2173336342915701
+        },
+        "DAY": {
+          "estimate": 0.0061245626734988175,
+          "standard_error": 0.003776318690751402,
+          "p_value": 0.10483886081381727,
+          "ci_lower": -0.0012768859545193804,
+          "ci_upper": 0.013526011301517015
+        }
+      }
+    },
+    "DEPRESSION_T": {
+      "converged": true,
+      "observations": 818,
+      "participants": 60,
+      "coefficients": {
+        "Intercept": {
+          "estimate": 2.306638879745957,
+          "standard_error": 0.20196549857040935,
+          "p_value": 3.286028657078617e-30,
+          "ci_lower": 1.910793776428279,
+          "ci_upper": 2.702483983063635
+        },
+        "control_within": {
+          "estimate": -0.05005235027390315,
+          "standard_error": 0.008127929191842622,
+          "p_value": 7.36371889259179e-10,
+          "ci_lower": -0.06598279875880644,
+          "ci_upper": -0.03412190178899986
+        },
+        "control_between": {
+          "estimate": -0.06207987141006465,
+          "standard_error": 0.02947707049599601,
+          "p_value": 0.03520093137080187,
+          "ci_lower": -0.11985386795196507,
+          "ci_upper": -0.004305874868164243
+        },
+        "DAY": {
+          "estimate": -0.0074129984846005885,
+          "standard_error": 0.005030563263194656,
+          "p_value": 0.14059143889430123,
+          "ci_lower": -0.017272721302412402,
+          "ci_upper": 0.002446724333211226
+        }
+      }
+    },
+    "SATISFACTION_T": {
+      "converged": true,
+      "observations": 818,
+      "participants": 60,
+      "coefficients": {
+        "Intercept": {
+          "estimate": 3.4148303692101987,
+          "standard_error": 0.4368908098587861,
+          "p_value": 5.443747631644398e-15,
+          "ci_lower": 2.558540116710441,
+          "ci_upper": 4.271120621709956
+        },
+        "control_within": {
+          "estimate": 0.09617815696654348,
+          "standard_error": 0.01197489789133951,
+          "p_value": 9.617247235025141e-16,
+          "ci_lower": 0.0727077883809734,
+          "ci_upper": 0.11964852555211357
+        },
+        "control_between": {
+          "estimate": 0.23819708372625742,
+          "standard_error": 0.06447577139409501,
+          "p_value": 0.0002204362897009235,
+          "ci_lower": 0.11182689391839334,
+          "ci_upper": 0.3645672735341215
+        },
+        "DAY": {
+          "estimate": 0.011255749572551373,
+          "standard_error": 0.007417884198357002,
+          "p_value": 0.12917075526457844,
+          "ci_lower": -0.0032830362977171214,
+          "ci_upper": 0.025794535442819868
+        }
+      }
+    }
+  }
+}
