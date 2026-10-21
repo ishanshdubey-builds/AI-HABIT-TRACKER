@@ -3,7 +3,12 @@ import { useEffect, useMemo, useState } from "react";
 import "./ResearchDashboard.css";
 import ResearchTrendCharts from "./ResearchTrendCharts";
 
-const API_URL = "http://localhost:8000/api/research/results";
+// const API_URL = "http://localhost:8000/api/research/results";
+
+const API_URL = `${
+  import.meta.env.VITE_API_URL ||
+  "https://ai-habit-tracker-api-m0d3.onrender.com/api"
+}/research/results`;
 
 const labels = {
   HOPE_T: "Hope",
