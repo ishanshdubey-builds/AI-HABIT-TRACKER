@@ -1,6 +1,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import "./ResearchDashboard.css";
+import ResearchTrendCharts from "./ResearchTrendCharts";
 
 const API_URL = "http://localhost:8000/api/research/results";
 
@@ -625,9 +626,19 @@ export default function ResearchDashboard() {
         </div>
       </section>
 
+            <section className="research-panel">
+        <SectionHeading
+          eyebrow="04 · DAILY TRENDS"
+          title="Research trend charts"
+          description="Daily mean scores and participant-level associations from the research dataset."
+        />
+
+        <ResearchTrendCharts results={results} />
+      </section>
+
       <section className="research-panel">
         <SectionHeading
-          eyebrow="04 · FINDINGS"
+          eyebrow="05 · FINDINGS"
           title="Research interpretation"
           description="Plain-language summaries generated from the returned statistics."
         />
@@ -636,7 +647,7 @@ export default function ResearchDashboard() {
 
       <section className="research-panel">
         <SectionHeading
-          eyebrow="05 · DATA QUALITY"
+          eyebrow="06 · DATA QUALITY"
           title="Missing data and limitations"
           description="Important qualifications to include when reporting the findings."
         />
