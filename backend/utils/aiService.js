@@ -1,3 +1,4 @@
+
 import { GoogleGenAI } from "@google/genai";
 
 let client = null;
@@ -6,7 +7,9 @@ const getClient = () => {
   const key = process.env.GEMINI_API_KEY;
 
   if (!key) {
-    throw new Error("GEMINI_API_KEY is missing from backend environment variables.");
+    throw new Error(
+      "GEMINI_API_KEY is missing from the backend environment variables."
+    );
   }
 
   if (!client) {
@@ -16,14 +19,14 @@ const getClient = () => {
   return client;
 };
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+// Use a model name that can be configured in Render.
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 
 export const isAIEnabled = () => Boolean(process.env.GEMINI_API_KEY);
 
 export const parseJSON = (text) => {
-  let cleaned = (text || "").trim();
-
-  cleaned = cleaned
+  const cleaned = (text || "")
+    .trim()
     .replace(/^```json\s*/i, "")
     .replace(/^```\s*/i, "")
     .replace(/\s*```$/i, "")
@@ -59,49 +62,82 @@ export const chatCompletion = async ({
       ok: true,
       content,
     };
-  } catch (err) {
-    console.error("AI request failed:", err.message);
+  } catch (error) {
+    console.error("AI request failed:", error.message);
 
     return {
       ok: false,
       content: "AI request failed. Please try again later.",
-      error: err.message,
+      error: error.message,
     };
   }
 };
 
 export const SYSTEM_PROMPTS = {
-  weekly: `You are a warm, encouraging habit coach.
-Analyse the user's last 7 days of habit data and write a personalised report of 120-180 words.
-Mention what went well, what was difficult, patterns noticed, and one specific piece of encouragement.
+  weekly: `
+You are a warm and encouraging habit coach.
+Analyze the user's last seven days of habit data.
+Write a personalized report of 120-180 words.
+Mention what went well, what was difficult, patterns noticed,
+and one specific piece of encouragement.
 Use the actual habit names provided.
-Be human and practical. Do not invent data.
-Use plain prose with line breaks and no markdown headings.`,
+Be human and constructive.
+Use plain prose with line breaks, without markdown headings.
+`,
 
-  suggestion: `You are a helpful habit coach.
-Based on the user's goals, productive time, and past struggles, suggest exactly 3 personalised habits.
-Return valid JSON only with this shape:
-{"suggestions":[{"name":"...","description":"...","frequency":"daily","category":"Health","icon":"...","reason":"..."}]}
-Choose categories from Health, Fitness, Learning, Mindfulness, Productivity, Social, Finance, Creative, Other.
-Do not include prose outside the JSON.`,
+  suggestion: `
+You are a helpful habit coach.
+Based on the user's goals, productive time, and past struggles,
+suggest exactly three personalized habits.
 
-  recovery: `You are a compassionate habit recovery coach.
+Return valid JSON only in this format:
+{
+  "suggestions": [
+    {
+      "name": "...",
+      "description": "...",
+      "frequency": "daily",
+      "category": "Health",
+      "icon": "🌱",
+      "reason": "..."
+    }
+  ]
+}
+
+Allowed categories:
+Health, Fitness, Learning, Mindfulness, Productivity,
+Social, Finance, Creative, Other.
+
+Do not include prose outside the JSON.
+`,
+
+  recovery: `
+You are a compassionate habit recovery coach.
 The user has broken a streak.
-Write a personalised 3-day recovery plan for the specific habit.
-Include an empathetic opening, Day 1, Day 2, Day 3, one concrete action for each day, and a closing encouragement.
-Keep it actionable and around 150-220 words.`,
+Write a personalized three-day recovery plan.
+Include an empathetic opening, Day 1, Day 2, Day 3,
+one concrete action for each day, and an encouraging closing.
+Write 150-220 words.
+`,
 
-  chat: `You are a helpful habit analysis assistant.
+  chat: `
+You are a helpful habit analysis assistant.
 Answer using only the supplied habit data.
-Be specific about actual habit names, days, and percentages when available.
-Keep replies under 120 words.
-If the data is insufficient, say so briefly.`,
+Be specific about habit names, days, and counts.
+Keep the answer under 120 words.
+If data is insufficient, say so briefly.
+`,
 
-  morning: `You are a warm, motivating friend.
-Write one short morning message of 30-60 words using the user's actual habit names and current streaks.
+  morning: `
+You are a warm, motivating friend.
+Write a short morning message of 30-60 words.
+Use the user's actual habit names and current streaks.
 Mention one or two specific habits.
-Be energetic but not cheesy. Use at most one emoji.`,
+Be energetic but not cheesy.
+Use at most one emoji.
+`,
 };
+
 
 
 
