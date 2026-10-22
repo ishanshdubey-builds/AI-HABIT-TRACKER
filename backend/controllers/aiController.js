@@ -1,3 +1,45 @@
+
+import Habit from "../models/Habit.js";
+import HabitLog from "../models/HabitLog.js";
+import AIInsight from "../models/AIInsight.js";
+import { chatCompletion, SYSTEM_PROMPTS, parseJSON } from "../utils/aiService.js";
+import { lastNDays, calcStreak, todayKey } from "../utils/dateHelpers.js";
+
+// Build context for the weekly report
+const buildWeeklyContext = async (userId) => {
+  const habits = await Habit.find({
+    userId,
+    isArchived: false,
+  });
+
+  const days = lastNDays(7);
+
+  const logs = await HabitLog.find({
+    userId,
+    completedDate: {
+      $gte: days[0],
+      $lte: days[days.length - 1],
+    },
+  });
+
+  const perHabit = habits.map((habit) => {
+    const completed = logs.filter(
+      (log) => String(log.habitId) === String(habit._id)
+    ).length;
+
+    return {
+      name: habit.name,
+      category: habit.category,
+      frequency: habit.frequency,
+      completedDays: completed,
+      targetDays: habit.targetDays,
+    };
+  });
+
+  return { days, perHabit };
+};
+
+// 1. Generate weekly AI report
 export const weeklyReport = async (req, res) => {
   try {
     const ctx = await buildWeeklyContext(req.user._id);
@@ -19,7 +61,7 @@ ${ctx.perHabit
   )
   .join("\n")}
 
-Write the personalised weekly report now. Use only the supplied data.`;
+Write a personalized weekly report. Use only the supplied data.`;
 
     const result = await chatCompletion({
       system: SYSTEM_PROMPTS.weekly,
@@ -30,7 +72,7 @@ Write the personalised weekly report now. Use only the supplied data.`;
       console.error("Weekly report generation failed:", result.error);
 
       return res.status(502).json({
-        message: "Could not generate the AI weekly report. Please try again.",
+        message: result.content || "Could not generate the weekly report.",
       });
     }
 
@@ -40,9 +82,7 @@ Write the personalised weekly report now. Use only the supplied data.`;
       content: result.content,
     });
 
-    return res.json({
-      content: result.content,
-    });
+    return res.json({ content: result.content });
   } catch (err) {
     console.error("Weekly report controller error:", err);
 
@@ -51,6 +91,309 @@ Write the personalised weekly report now. Use only the supplied data.`;
     });
   }
 };
+
+// 2. Suggest personalized habits
+export const suggestHabits = async (req, res) => {
+  try {
+    const { goals, productiveTime, struggles } = req.body;
+
+    const userMsg = `User goals: ${goals || "not provided"}
+Most productive time: ${productiveTime || "not provided"}
+Past struggles: ${struggles || "not provided"}
+
+Suggest exactly 3 personalized habits. Return JSON only.`;
+
+    const result = await chatCompletion({
+      system: SYSTEM_PROMPTS.suggestion,
+      user: userMsg,
+    });
+
+    if (!result.ok) {
+      return res.status(502).json({
+        message: result.content || "Could not generate habit suggestions.",
+      });
+    }
+
+    let suggestions = [];
+
+    try {
+      const parsed = parseJSON(result.content);
+      suggestions = parsed.suggestions || [];
+    } catch (error) {
+      console.error("Could not parse habit suggestions:", error.message);
+    }
+
+    if (!suggestions.length) {
+      suggestions = [
+        {
+          name: "10-minute morning walk",
+          description: "Start the day with light movement and fresh air.",
+          frequency: "daily",
+          category: "Fitness",
+          icon: "🚶",
+          reason: "A simple way to build consistency.",
+        },
+        {
+          name: "Read 5 pages",
+          description: "Read a few pages of a book each day.",
+          frequency: "daily",
+          category: "Learning",
+          icon: "📚",
+          reason: "Small reading sessions build a lasting learning habit.",
+        },
+        {
+          name: "2 minutes of mindful breathing",
+          description: "Pause and breathe to reset your focus.",
+          frequency: "daily",
+          category: "Mindfulness",
+          icon: "🌿",
+          reason: "A short practice that fits into a busy schedule.",
+        },
+      ];
+    }
+
+    await AIInsight.create({
+      userId: req.user._id,
+      type: "suggestion",
+      content: JSON.stringify(suggestions),
+      meta: { goals, productiveTime, struggles },
+    });
+
+    return res.json({ suggestions });
+  } catch (err) {
+    console.error("Habit suggestion error:", err);
+
+    return res.status(500).json({
+      message: "An error occurred while generating habit suggestions.",
+    });
+  }
+};
+
+// 3. Generate a three-day recovery plan
+export const recoveryPlan = async (req, res) => {
+  try {
+    const { habitId } = req.body;
+
+    if (!habitId) {
+      return res.status(400).json({
+        message: "habitId is required.",
+      });
+    }
+
+    const habit = await Habit.findOne({
+      _id: habitId,
+      userId: req.user._id,
+    });
+
+    if (!habit) {
+      return res.status(404).json({
+        message: "Habit not found.",
+      });
+    }
+
+    const logs = await HabitLog.find({
+      userId: req.user._id,
+      habitId,
+    }).sort({ completedDate: -1 });
+
+    const keys = logs.map((log) => log.completedDate);
+    const { current, longest } = calcStreak(keys);
+
+    const userMsg = `Habit: ${habit.name} (${habit.category}).
+Description: ${habit.description || "none"}.
+Current streak: ${current} days.
+Longest streak: ${longest} days.
+
+Write a warm, actionable three-day recovery plan.`;
+
+    const result = await chatCompletion({
+      system: SYSTEM_PROMPTS.recovery,
+      user: userMsg,
+    });
+
+    if (!result.ok) {
+      return res.status(502).json({
+        message: result.content || "Could not generate the recovery plan.",
+      });
+    }
+
+    await AIInsight.create({
+      userId: req.user._id,
+      type: "recovery",
+      content: result.content,
+      meta: { habitId },
+    });
+
+    return res.json({ content: result.content });
+  } catch (err) {
+    console.error("Recovery plan error:", err);
+
+    return res.status(500).json({
+      message: "An error occurred while generating the recovery plan.",
+    });
+  }
+};
+
+// 4. Answer questions about habit history
+export const chatAnalysis = async (req, res) => {
+  try {
+    const { question } = req.body;
+
+    if (!question || !question.trim()) {
+      return res.status(400).json({
+        message: "Question is required.",
+      });
+    }
+
+    const habits = await Habit.find({
+      userId: req.user._id,
+      isArchived: false,
+    });
+
+    const days = lastNDays(30);
+
+    const logs = await HabitLog.find({
+      userId: req.user._id,
+      completedDate: {
+        $gte: days[0],
+        $lte: days[days.length - 1],
+      },
+    });
+
+    const context = habits
+      .map((habit) => {
+        const habitLogs = logs.filter(
+          (log) => String(log.habitId) === String(habit._id)
+        );
+
+        const byDow = [0, 0, 0, 0, 0, 0, 0];
+
+        for (const log of habitLogs) {
+          const dow = new Date(log.completedDate).getDay();
+          byDow[dow] += 1;
+        }
+
+        return `${habit.name} (${habit.category}): completed ${habitLogs.length} times in the last 30 days. By weekday [Sun, Mon, Tue, Wed, Thu, Fri, Sat]: ${byDow.join(", ")}`;
+      })
+      .join("\n");
+
+    const userMsg = `User question: "${question}"
+
+User habit data for the last 30 days:
+${context || "No habit data available."}
+
+Answer the question using only this data.`;
+
+    const result = await chatCompletion({
+      system: SYSTEM_PROMPTS.chat,
+      user: userMsg,
+    });
+
+    if (!result.ok) {
+      return res.status(502).json({
+        message: result.content || "Could not analyze your habit data.",
+      });
+    }
+
+    await AIInsight.create({
+      userId: req.user._id,
+      type: "chat",
+      content: result.content,
+      meta: { question },
+    });
+
+    return res.json({ content: result.content });
+  } catch (err) {
+    console.error("Habit analysis error:", err);
+
+    return res.status(500).json({
+      message: "An error occurred while analyzing your habit data.",
+    });
+  }
+};
+
+// 5. Generate personalized morning motivation
+export const morningMotivation = async (req, res) => {
+  try {
+    const habits = await Habit.find({
+      userId: req.user._id,
+      isArchived: false,
+    });
+
+    if (!habits.length) {
+      return res.json({
+        content:
+          "Good morning! Add your first habit today and let's get the momentum started.",
+      });
+    }
+
+    const days = lastNDays(30);
+
+    const logs = await HabitLog.find({
+      userId: req.user._id,
+      completedDate: {
+        $gte: days[0],
+        $lte: days[days.length - 1],
+      },
+    });
+
+    const context = habits
+      .map((habit) => {
+        const habitLogs = logs
+          .filter((log) => String(log.habitId) === String(habit._id))
+          .map((log) => log.completedDate)
+          .sort()
+          .reverse();
+
+        const { current } = calcStreak(habitLogs);
+
+        return `${habit.name}: current streak ${current}`;
+      })
+      .join("\n");
+
+    const today = todayKey();
+
+    const todayLogs = logs.filter(
+      (log) => log.completedDate === today
+    );
+
+    const done = todayLogs.length;
+    const total = habits.length;
+
+    const userMsg = `Today's habits and streaks:
+${context}
+
+Completed today: ${done}/${total}.
+Write a personalized morning message.`;
+
+    const result = await chatCompletion({
+      system: SYSTEM_PROMPTS.morning,
+      user: userMsg,
+      temperature: 0.8,
+    });
+
+    if (!result.ok) {
+      return res.status(502).json({
+        message: result.content || "Could not generate morning motivation.",
+      });
+    }
+
+    await AIInsight.create({
+      userId: req.user._id,
+      type: "morning",
+      content: result.content,
+    });
+
+    return res.json({ content: result.content });
+  } catch (err) {
+    console.error("Morning motivation error:", err);
+
+    return res.status(500).json({
+      message: "An error occurred while generating morning motivation.",
+    });
+  }
+};
+
 
 
 

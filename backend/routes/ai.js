@@ -1,3 +1,4 @@
+
 import express from "express";
 
 import {
@@ -12,7 +13,6 @@ import { protect } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// All AI endpoints require authentication.
 router.use(protect);
 
 router.post("/weekly-report", weeklyReport);
@@ -22,6 +22,7 @@ router.post("/chat", chatAnalysis);
 router.get("/morning", morningMotivation);
 
 export default router;
+
 
 
 
