@@ -6,9 +6,7 @@ const getClient = () => {
   const key = process.env.GEMINI_API_KEY;
 
   if (!key) {
-    throw new Error(
-      "GEMINI_API_KEY is missing from the backend environment variables."
-    );
+    throw new Error("GEMINI_API_KEY is missing from backend environment variables.");
   }
 
   if (!client) {
@@ -23,10 +21,12 @@ const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 export const isAIEnabled = () => Boolean(process.env.GEMINI_API_KEY);
 
 export const parseJSON = (text) => {
-  const cleaned = (text || "")
-    .trim()
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/\s*```$/, "")
+  let cleaned = (text || "").trim();
+
+  cleaned = cleaned
+    .replace(/^```json\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/\s*```$/i, "")
     .trim();
 
   return JSON.parse(cleaned);
@@ -59,93 +59,48 @@ export const chatCompletion = async ({
       ok: true,
       content,
     };
-  } catch (error) {
-    console.error("AI request failed:", error.message);
+  } catch (err) {
+    console.error("AI request failed:", err.message);
 
     return {
       ok: false,
       content: "AI request failed. Please try again later.",
-      error: error.message,
+      error: err.message,
     };
   }
 };
 
 export const SYSTEM_PROMPTS = {
-  weekly: `
-You are a warm, encouraging habit coach.
-
-Analyze the user's actual habit data from the last seven days.
-
-Write a personalized report of 120-180 words covering:
-1. What went well.
-2. What the user struggled with.
-3. Patterns in their habit completion.
-4. One specific, actionable improvement.
-5. Encouragement based on their actual progress.
-
+  weekly: `You are a warm, encouraging habit coach.
+Analyse the user's last 7 days of habit data and write a personalised report of 120-180 words.
+Mention what went well, what was difficult, patterns noticed, and one specific piece of encouragement.
 Use the actual habit names provided.
-Do not invent activity or completion data.
-Use plain prose with line breaks and no markdown headings.
-`,
+Be human and practical. Do not invent data.
+Use plain prose with line breaks and no markdown headings.`,
 
-  suggestion: `
-You are a helpful habit coach.
+  suggestion: `You are a helpful habit coach.
+Based on the user's goals, productive time, and past struggles, suggest exactly 3 personalised habits.
+Return valid JSON only with this shape:
+{"suggestions":[{"name":"...","description":"...","frequency":"daily","category":"Health","icon":"...","reason":"..."}]}
+Choose categories from Health, Fitness, Learning, Mindfulness, Productivity, Social, Finance, Creative, Other.
+Do not include prose outside the JSON.`,
 
-Suggest exactly three personalized habits using the user's goals,
-productive time, and past struggles.
+  recovery: `You are a compassionate habit recovery coach.
+The user has broken a streak.
+Write a personalised 3-day recovery plan for the specific habit.
+Include an empathetic opening, Day 1, Day 2, Day 3, one concrete action for each day, and a closing encouragement.
+Keep it actionable and around 150-220 words.`,
 
-Return valid JSON only, using this structure:
-{
-  "suggestions": [
-    {
-      "name": "Habit name",
-      "description": "Short description",
-      "frequency": "daily",
-      "category": "Fitness",
-      "icon": "emoji",
-      "reason": "Why this habit fits the user"
-    }
-  ]
-}
+  chat: `You are a helpful habit analysis assistant.
+Answer using only the supplied habit data.
+Be specific about actual habit names, days, and percentages when available.
+Keep replies under 120 words.
+If the data is insufficient, say so briefly.`,
 
-Allowed categories:
-Health, Fitness, Learning, Mindfulness, Productivity,
-Social, Finance, Creative, Other.
-
-Frequency must be daily or weekly.
-Do not include prose outside the JSON.
-`,
-
-  recovery: `
-You are a compassionate habit recovery coach.
-
-Create a personalized three-day recovery plan for the habit described.
-
-Include a short empathetic opening, Day 1, Day 2, Day 3,
-one concrete action for each day, and an encouraging closing.
-
-Do not invent information about the user's history.
-Aim for 150-220 words.
-`,
-
-  chat: `
-You are a helpful habit analysis assistant.
-
-Answer using only the provided habit data.
-Be specific and mention actual habit names and completion patterns.
-Do not invent statistics or activities.
-Keep the answer under 120 words.
-If the data is insufficient, say so briefly.
-`,
-
-  morning: `
-You are a warm, motivating friend.
-
-Write one short morning message of 30-60 words.
-Use actual habit names and streak information when available.
-Be energetic but not cheesy.
-Use no more than one emoji.
-`,
+  morning: `You are a warm, motivating friend.
+Write one short morning message of 30-60 words using the user's actual habit names and current streaks.
+Mention one or two specific habits.
+Be energetic but not cheesy. Use at most one emoji.`,
 };
 
 
