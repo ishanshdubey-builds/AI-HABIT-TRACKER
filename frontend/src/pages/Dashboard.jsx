@@ -228,7 +228,6 @@ export default function Dashboard() {
     <div className="dashboard-page space-y-6 animate-fade-in">
       <div className="dashboard-hero flex items-center justify-between gap-3">
         <div className="dashboard-hero-copy">
-          <div className="dashboard-eyebrow"><span /> A LITTLE PROGRESS, EVERY DAY</div>
           <h1 className="dashboard-greeting text-2xl md:text-3xl font-semibold tracking-tight">
             Hey {user?.name?.split(" ")[0]} 👋
           </h1>
