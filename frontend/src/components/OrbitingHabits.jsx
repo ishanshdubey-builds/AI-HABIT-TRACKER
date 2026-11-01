@@ -12,15 +12,15 @@ import { useTheme } from "../context/ThemeContext.jsx";
 
 const HABITS = [
   // outer orbit
-  { Icon: FaDroplet, color: "#0ea5e9", orbit: "outer", delay: 0 },
-  { Icon: FaPersonRunning, color: "#ef4444", orbit: "outer", delay: -10 },
-  { Icon: FaBookOpen, color: "#6366f1", orbit: "outer", delay: -20 },
+  { Icon: FaDroplet, color: "#8bc5ff", orbit: "outer", delay: 0 },
+  { Icon: FaPersonRunning, color: "#d69acb", orbit: "outer", delay: -10 },
+  { Icon: FaBookOpen, color: "#a99aff", orbit: "outer", delay: -20 },
   // middle orbit (reverse direction)
-  { Icon: GiMeditation, color: "#8b5cf6", orbit: "middle", delay: -4, reverse: true },
-  { Icon: FaDumbbell, color: "#f59e0b", orbit: "middle", delay: -16, reverse: true },
+  { Icon: GiMeditation, color: "#b49cff", orbit: "middle", delay: -4, reverse: true },
+  { Icon: FaDumbbell, color: "#e2b6ff", orbit: "middle", delay: -16, reverse: true },
   // inner orbit
-  { Icon: FaPenNib, color: "#ec4899", orbit: "inner", delay: -2 },
-  { Icon: FaBullseye, color: "#10b981", orbit: "inner", delay: -10 },
+  { Icon: FaPenNib, color: "#dba7f3", orbit: "inner", delay: -2 },
+  { Icon: FaBullseye, color: "#80c8df", orbit: "inner", delay: -10 },
 ];
 
 const ORBITS = {
@@ -41,22 +41,22 @@ export default function OrbitingHabits() {
   const isDark = theme === "dark";
 
   const sunGradient = isDark
-    ? "radial-gradient(circle at 30% 25%, rgba(253,224,71,0.4), rgba(251,191,36,0.24) 60%, rgba(217,119,6,0.2))"
-    : "radial-gradient(circle at 30% 25%, #ffffff, #fef3c7 45%, #fde68a 100%)";
+    ? "radial-gradient(circle at 30% 25%, rgba(194,178,255,0.42), rgba(142,128,238,0.28) 60%, rgba(102,117,201,0.22))"
+    : "radial-gradient(circle at 30% 25%, #ffffff, #fef3c7 45%, #e6dcff 100%)";
 
   const sunShadow = isDark
-    ? "inset 0 1px 0 rgba(255,255,255,0.35), 0 6px 24px rgba(251,191,36,0.3)"
-    : "inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 24px rgba(217,119,6,0.22), 0 2px 6px rgba(217,119,6,0.14)";
+    ? "inset 0 1px 0 rgba(255,255,255,0.35), 0 6px 24px rgba(164,145,255,0.34)"
+    : "inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 24px rgba(147,128,245,0.22), 0 2px 6px rgba(147,128,245,0.14)";
 
   const sunBorder = isDark
     ? "1px solid rgba(255,255,255,0.2)"
     : "1px solid rgba(255,255,255,0.8)";
 
-  const sunIconColor = isDark ? "#fde68a" : "#b45309";
+  const sunIconColor = isDark ? "#e6dcff" : "#7667c9";
 
   const haloBg = isDark
-    ? "radial-gradient(circle, rgba(251,191,36,0.24), transparent 70%)"
-    : "radial-gradient(circle, rgba(251,191,36,0.22), transparent 70%)";
+    ? "radial-gradient(circle, rgba(142,128,238,0.28), transparent 70%)"
+    : "radial-gradient(circle, rgba(164,145,255,0.23), transparent 70%)";
 
   return (
     <div className="relative mx-auto w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[460px] lg:h-[460px]">
@@ -64,7 +64,7 @@ export default function OrbitingHabits() {
       {STARS.map((s, i) => (
         <span
           key={i}
-          className="absolute rounded-full bg-amber-400/70 dark:bg-amber-200/70"
+          className="absolute rounded-full bg-violet-300/70 dark:bg-violet-200/80"
           style={{
             top: s.top,
             left: s.left,
