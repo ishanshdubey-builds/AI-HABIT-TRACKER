@@ -24,7 +24,7 @@ export default function AIWeeklyReport() {
   };
 
   return (
-    <div className="card p-5 relative overflow-hidden">
+    <div className="dashboard-ai-report card p-5 relative overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none opacity-40"
         style={{

@@ -14,7 +14,7 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
   }
 
   return (
-    <div className="card p-5 overflow-x-auto">
+    <div className="dashboard-weekly-grid card p-5 overflow-x-auto">
       <div className="min-w-[520px]">
         <div className="grid grid-cols-[180px_repeat(7,minmax(0,1fr))] gap-2 items-center mb-2">
           <div className="text-xs font-medium text-muted uppercase tracking-wider">

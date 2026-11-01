@@ -38,7 +38,7 @@ export default function HeatmapChart({ data = [] }) {
   const totalCount = data.reduce((s, d) => s + d.count, 0);
 
   return (
-    <div className="card p-5">
+    <div className="dashboard-heatmap card p-5">
       <div className="flex items-center justify-between mb-3">
         <div>
           <div className="text-sm font-medium">Consistency</div>
