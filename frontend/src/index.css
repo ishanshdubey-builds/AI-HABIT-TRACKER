@@ -293,3 +293,14 @@ body::before { animation: aurora-shift 22s ease-in-out infinite; }
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+/* Keep decorative treatment restrained; preserve all component behavior. */
+.card > .absolute[style*="radial-gradient"] {
+  background: none !important;
+  opacity: 0 !important;
+}
+.max-w-6xl h1 {
+  font-size: clamp(2.35rem, 4.7vw, 4rem);
+}
+.card .text-orange-500 { color: #9a8060 !important; }
+html.dark .card .text-orange-500 { color: #c7a982 !important; }
