@@ -191,22 +191,21 @@ AI-HABIT-TRACKER/
 │   └── server.js
 │
 ├── frontend/
-│   └── ai-habit-tracker-ui-boilerplate-code/
-│       ├── public/
-│       ├── src/
-│       │   ├── ResearchDashboard.jsx
-│       │   ├── ResearchDashboard.css
-│       │   ├── api/
-│       │   ├── assets/
-│       │   ├── components/
-│       │   ├── context/
-│       │   ├── pages/
-│       │   └── utils/
-│       │
-│       ├── .env.example
-│       ├── package.json
-│       ├── index.html
-│       └── vite.config.js
+│   ├── public/
+│   ├── src/
+│   │   ├── ResearchDashboard.jsx
+│   │   ├── ResearchDashboard.css
+│   │   ├── api/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   └── utils/
+│   │
+│   ├── .env.example
+│   ├── package.json
+│   ├── index.html
+│   └── vite.config.js
 │
 ├── .gitignore
 └── README.md
