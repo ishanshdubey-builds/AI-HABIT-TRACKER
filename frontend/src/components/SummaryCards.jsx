@@ -1,7 +1,7 @@
 import { ListChecks, Flame, Trophy, TrendingUp } from "lucide-react";
 
 const Card = ({ icon: Icon, label, value, iconBg, iconFg }) => (
-  <div className="card p-4 flex items-center gap-3 overflow-hidden relative">
+  <div className="dashboard-stat-card card p-4 flex items-center gap-3 overflow-hidden relative">
     <div
       className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
       style={{ background: iconBg, color: iconFg }}

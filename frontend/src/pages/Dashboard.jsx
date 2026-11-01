@@ -225,10 +225,11 @@ export default function Dashboard() {
   if (loading) return <LoadingSpinner full />;
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
+    <div className="dashboard-page space-y-6 animate-fade-in">
+      <div className="dashboard-hero flex items-center justify-between gap-3">
+        <div className="dashboard-hero-copy">
+          <div className="dashboard-eyebrow"><span /> A LITTLE PROGRESS, EVERY DAY</div>
+          <h1 className="dashboard-greeting text-2xl md:text-3xl font-semibold tracking-tight">
             Hey {user?.name?.split(" ")[0]} 👋
           </h1>
           <p className="text-sm text-muted mt-0.5">
@@ -286,7 +287,7 @@ export default function Dashboard() {
         weekRate={weekRate}
       />
 
-      <div className="card p-5">
+      <div className="dashboard-today-panel card p-5">
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="text-sm font-medium">Today's habits</div>
