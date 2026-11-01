@@ -289,7 +289,7 @@ Open a new terminal from the project root.
 Navigate to the frontend directory:
 
 ```bash
-cd frontend/ai-habit-tracker-ui-boilerplate-code
+cd frontend
 ```
 
 Install the dependencies:
