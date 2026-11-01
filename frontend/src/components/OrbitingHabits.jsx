@@ -42,7 +42,7 @@ export default function OrbitingHabits() {
 
   const sunGradient = isDark
     ? "radial-gradient(circle at 30% 25%, rgba(194,178,255,0.42), rgba(142,128,238,0.28) 60%, rgba(102,117,201,0.22))"
-    : "radial-gradient(circle at 30% 25%, #ffffff, #fef3c7 45%, #e6dcff 100%)";
+    : "radial-gradient(circle at 30% 25%, #ffffff, #e9e3ff 45%, #c7b8ff 100%)";
 
   const sunShadow = isDark
     ? "inset 0 1px 0 rgba(255,255,255,0.35), 0 6px 24px rgba(164,145,255,0.34)"
