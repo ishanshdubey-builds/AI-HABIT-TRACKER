@@ -18,12 +18,12 @@ export default function MobileNav() {
   const { theme, toggle } = useTheme();
   return (
     <>
-      <div className="md:hidden sticky top-0 z-20 glass border-b divider px-4 py-3 flex items-center justify-between">
+      <div className="md:hidden sticky top-0 z-20 bg-[#101213] border-b border-zinc-800/80 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-md shadow-brand-500/30">
+          <div className="w-7 h-7 border border-zinc-700 text-zinc-200 flex items-center justify-center rounded-sm">
             <Sparkles size={16} />
           </div>
-          <div className="font-semibold">AI Habit Tracker</div>
+          <div className="text-xs font-medium tracking-[.12em] uppercase text-zinc-200">Habit / Ritual</div>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -44,7 +44,7 @@ export default function MobileNav() {
           </button>
         </div>
       </div>
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 glass border-t divider flex justify-around py-2">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-[#101213] border-t border-zinc-800/80 flex justify-around py-2">
         {[
           { to: "/dashboard", label: "Home", icon: LayoutDashboard },
           { to: "/habits", label: "Habits", icon: ListChecks },
@@ -57,8 +57,8 @@ export default function MobileNav() {
             to={to}
             className={({ isActive }) =>
               `flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-lg text-xs ${isActive
-                ? "text-brand-700 dark:text-brand-300"
-                : "text-faint"
+                ? "text-zinc-100 font-semibold"
+                : "text-zinc-600"
               }`
             }
           >
