@@ -51,7 +51,6 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
               </div>
               {days.map((d) => {
                 const isDone = done.has(d.key);
-                const future = d.key > todayKey;
                 return (
                   <div key={d.key} className="flex items-center justify-center">
                     <div
