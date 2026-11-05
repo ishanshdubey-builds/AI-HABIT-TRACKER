@@ -154,7 +154,7 @@ export default function Habits() {
         </div>
       </div>
 
-      <div className="card p-4">
+      <div className="border-y border-zinc-800/70 py-4">
         <div className="flex flex-col md:flex-row gap-3 md:items-center">
           <div className="relative flex-1">
             <Search
@@ -231,20 +231,18 @@ export default function Habits() {
           )}
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-0">
           {filtered.map((h) => {
             const keys = logsByHabit[h._id] || [];
             const { current, longest } = streakFromKeys(keys);
             return (
               <div
                 key={h._id}
-                className={`card p-4 flex items-center gap-4 ${
-                  h.isArchived ? "opacity-70" : ""
-                }`}
+                className={`habit-list-row flex items-center gap-4 py-4 border-t border-zinc-800/70 ${h.isArchived ? "opacity-60" : ""}`}
               >
                 <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
-                  style={{ background: `${h.color}26`, color: h.color }}
+                  className="w-9 h-9 rounded-sm border border-zinc-800 flex items-center justify-center text-lg shrink-0"
+                  style={{ color: "var(--text-soft)" }}
                 >
                   {h.icon}
                 </div>
