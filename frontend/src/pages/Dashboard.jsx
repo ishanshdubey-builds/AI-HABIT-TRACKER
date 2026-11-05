@@ -286,7 +286,7 @@ export default function Dashboard() {
         weekRate={weekRate}
       />
 
-      <div className="dashboard-today-panel card p-5">
+      <div className="dashboard-today-panel">
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="text-sm font-medium">Today's habits</div>
