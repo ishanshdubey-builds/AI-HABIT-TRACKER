@@ -47,7 +47,7 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
   };
 
   return (
-    <Modal open={open} onClose={close} title="AI Habit Suggestions" maxWidth="max-w-xl">
+    <Modal open={open} onClose={close} title="AI Habit Suggestions" maxWidth="max-w-3xl">
       {step === 0 && (
         <div className="space-y-4">
           <div className="text-sm text-soft">
@@ -155,16 +155,16 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
             </div>
           )}
           {suggestions.map((s, i) => (
-            <div key={i} className="glass rounded-xl p-4">
+            <div key={i} className="suggestion-row grid grid-cols-[auto_1fr_auto] gap-4 py-4 border-t border-zinc-800/70">
               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                <span className="text-xl">{s.icon}</span>
+                <span className="w-9 h-9 border border-zinc-800 rounded-sm flex items-center justify-center text-lg">{s.icon}</span>
                 <div className="font-medium">{s.name}</div>
                 <span className="chip">{s.category}</span>
                 <span className="chip">{s.frequency}</span>
               </div>
               <div className="text-sm text-soft">{s.description}</div>
               {s.reason && (
-                <div className="text-xs text-brand-700 dark:text-brand-300 mt-2 bg-brand-500/10 rounded-lg px-2 py-1.5">
+                <div className="text-xs text-muted mt-2 border-l border-zinc-600 pl-3 py-1">
                   Why: {s.reason}
                 </div>
               )}
