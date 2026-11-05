@@ -14,7 +14,7 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
   }
 
   return (
-    <div className="dashboard-weekly-grid card p-5 overflow-x-auto">
+    <div className="dashboard-weekly-grid overflow-x-auto">
       <div className="min-w-[520px]">
         <div className="grid grid-cols-[180px_repeat(7,minmax(0,1fr))] gap-2 items-center mb-2">
           <div className="text-xs font-medium text-muted uppercase tracking-wider">
@@ -42,8 +42,8 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
             >
               <div className="flex items-center gap-2 min-w-0">
                 <span
-                  className="w-7 h-7 rounded-lg flex items-center justify-center text-base shrink-0"
-                  style={{ background: `${h.color}26`, color: h.color }}
+                  className="w-7 h-7 rounded-sm border border-zinc-800 flex items-center justify-center text-base shrink-0"
+                  style={{ color: "var(--text-soft)" }}
                 >
                   {h.icon}
                 </span>
@@ -51,24 +51,17 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
               </div>
               {days.map((d) => {
                 const isDone = done.has(d.key);
-                const future = d.key > todayKey;
                 return (
                   <div key={d.key} className="flex items-center justify-center">
                     <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center transition ${
-                        isDone
-                          ? "text-white shadow-md"
-                          : future
-                          ? "text-faint"
-                          : "text-faint"
-                      }`}
+                      className={`w-7 h-7 rounded-[1px] border border-zinc-800/80 flex items-center justify-center transition ${isDone ? "text-[#151615]" : "text-zinc-700"}`}
                       style={
                         isDone
-                          ? { background: h.color, boxShadow: `0 4px 12px ${h.color}55` }
-                          : { background: "var(--chip-bg)" }
+                          ? { background: "rgba(232,229,222,.82)", borderColor: "rgba(232,229,222,.82)" }
+                          : { background: "rgba(255,255,255,.025)" }
                       }
                     >
-                      {isDone && <Check size={14} strokeWidth={3} />}
+                      {isDone && <Check size={13} strokeWidth={1.8} />}
                     </div>
                   </div>
                 );

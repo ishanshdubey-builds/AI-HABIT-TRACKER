@@ -2,12 +2,12 @@ import { useMemo } from "react";
 import { format, parseISO } from "date-fns";
 
 const levelColor = (count, max) => {
-  if (!count) return "var(--heat-0)";
+  if (!count) return "rgba(255,255,255,.04)";
   const ratio = count / Math.max(1, max);
-  if (ratio < 0.25) return "var(--heat-1)";
-  if (ratio < 0.5) return "var(--heat-2)";
-  if (ratio < 0.85) return "var(--heat-3)";
-  return "var(--heat-4)";
+  if (ratio < 0.25) return "rgba(255,255,255,.16)";
+  if (ratio < 0.5) return "rgba(255,255,255,.32)";
+  if (ratio < 0.85) return "rgba(255,255,255,.54)";
+  return "rgba(255,255,255,.8)";
 };
 
 export default function HeatmapChart({ data = [] }) {
@@ -51,7 +51,7 @@ export default function HeatmapChart({ data = [] }) {
           {[0, 0.2, 0.5, 0.8, 1].map((r, i) => (
             <span
               key={i}
-              className="w-3 h-3 rounded-sm"
+              className="w-3 h-3 rounded-[1px]"
               style={{ background: levelColor(r * (max || 1), max || 1) }}
             />
           ))}
@@ -67,7 +67,7 @@ export default function HeatmapChart({ data = [] }) {
                 d ? (
                   <div
                     key={ri}
-                    className="w-3.5 h-3.5 rounded-sm transition-colors"
+                    className="w-3.5 h-3.5 rounded-[1px] transition-colors"
                     style={{ background: levelColor(d.count, max) }}
                     title={`${format(parseISO(d.date), "MMM d, yyyy")} — ${d.count} completion${
                       d.count === 1 ? "" : "s"

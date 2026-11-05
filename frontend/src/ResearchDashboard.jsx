@@ -156,7 +156,7 @@ function CoefficientChart({ model }) {
     {
       key: "control_between",
       label: "Between-person control",
-      color: "var(--research-purple)",
+      color: "var(--research-muted)",
     },
   ].filter((term) => effect === "both" || effect === term.key);
 
@@ -270,7 +270,7 @@ const ticks = [-limit, -limit / 2, 0, limit / 2, limit];
                   y1={y}
                   y2={y}
                   stroke={point.color}
-                  strokeWidth="3"
+                  strokeWidth="1.25"
                   strokeLinecap="round"
                 />
                 <line
@@ -279,7 +279,7 @@ const ticks = [-limit, -limit / 2, 0, limit / 2, limit];
                   y1={y - 7}
                   y2={y + 7}
                   stroke={point.color}
-                  strokeWidth="2"
+                  strokeWidth="1.1"
                 />
                 <line
                   x1={x(point.ci_upper)}
@@ -287,15 +287,15 @@ const ticks = [-limit, -limit / 2, 0, limit / 2, limit];
                   y1={y - 7}
                   y2={y + 7}
                   stroke={point.color}
-                  strokeWidth="2"
+                  strokeWidth="1.1"
                 />
                 <circle
                   cx={x(point.estimate)}
                   cy={y}
-                  r="5"
+                  r="3.5"
                   fill={point.color}
                   stroke="var(--research-card)"
-                  strokeWidth="2"
+                  strokeWidth="1.1"
                 />
               </g>
             );

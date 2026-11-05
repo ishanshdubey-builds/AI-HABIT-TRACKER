@@ -35,16 +35,16 @@ export default function ResearchTrendCharts({ results }) {
             <h3>{title}</h3>
             <ResponsiveContainer width="100%" height={260}>
               <LineChart data={results.daily_means}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="DAY" />
-                <YAxis domain={["auto", "auto"]} />
+                <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="1 5" vertical={false} />
+                <XAxis dataKey="DAY" tick={{ fill: "var(--chart-tick)", fontSize: 10 }} axisLine={{ stroke: "var(--chart-grid)" }} tickLine={false} />
+                <YAxis domain={["auto", "auto"]} tick={{ fill: "var(--chart-tick)", fontSize: 10 }} axisLine={false} tickLine={false} />
                 <Tooltip />
                 <Line
                   type="monotone"
                   dataKey={key}
-                  stroke="#2878b5"
-                  strokeWidth={2}
-                  dot
+                  stroke="#c6beb0"
+                  strokeWidth={1.25}
+                  dot={false}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -56,7 +56,7 @@ export default function ResearchTrendCharts({ results }) {
 
       <ResponsiveContainer width="100%" height={340}>
         <ScatterChart>
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="1 5" vertical={false} />
           <XAxis
             type="number"
             dataKey="control"
@@ -70,7 +70,7 @@ export default function ResearchTrendCharts({ results }) {
           <Tooltip />
           <Scatter
             data={results.participant_means}
-            fill="#2878b5"
+            fill="#c6beb0"
           />
         </ScatterChart>
       </ResponsiveContainer>

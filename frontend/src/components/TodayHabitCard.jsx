@@ -40,14 +40,11 @@ export default function TodayHabitCard({
 
   return (
     <div
-      className={`dashboard-habit-row card p-4 flex items-center gap-4 transition ${completed
-        ? "ring-1 ring-brand-500/10 bg-brand-500/5 dark:bg-brand-500/3"
-        : ""
-        }`}
+      className={`dashboard-habit-row flex items-center gap-4 transition ${completed ? "is-complete" : ""}`}
     >
       <div
-        className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
-        style={{ background: `${habit.color}26`, color: habit.color }}
+        className="w-9 h-9 rounded-sm border border-zinc-800 flex items-center justify-center text-lg shrink-0"
+        style={{ color: "var(--text-soft)" }}
       >
         {habit.icon}
       </div>
@@ -133,13 +130,10 @@ export default function TodayHabitCard({
 
       <button
         onClick={onToggle}
-        className={`shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition ${completed
-          ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-500/40 animate-pop"
-          : "bg-brand-100 border-2 border-border-brand-400 text-brand-400 hover:border-brand-400 hover:text-brand-400"
-          }`}
+        className={`habit-check shrink-0 w-8 h-8 rounded-none flex items-center justify-center transition ${completed ? "is-checked" : ""}`}
         aria-label={completed ? "Mark incomplete" : "Mark complete"}
       >
-        <Check size={20} strokeWidth={3} />
+        <Check size={16} strokeWidth={1.5} />
       </button>
     </div>
   );

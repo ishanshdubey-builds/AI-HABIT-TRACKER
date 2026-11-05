@@ -106,8 +106,8 @@ export default function Weekly() {
         <LoadingSpinner full />
       ) : (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="card p-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-y border-zinc-800/70">
+            <div className="border-r border-zinc-800/70 px-4 py-4">
               <div className="text-xs text-muted font-medium">Week rate</div>
               <div className="text-2xl font-semibold mt-1">
                 {weekRate}%
@@ -116,7 +116,7 @@ export default function Weekly() {
                 {totalDone} of {totalSlots}
               </div>
             </div>
-            <div className="card p-4">
+            <div className="border-r border-zinc-800/70 px-4 py-4">
               <div className="text-xs text-muted font-medium">
                 Total completions
               </div>
@@ -125,7 +125,7 @@ export default function Weekly() {
               </div>
               <div className="text-xs text-muted mt-0.5">this week</div>
             </div>
-            <div className="card p-4">
+            <div className="border-r border-zinc-800/70 px-4 py-4">
               <div className="text-xs text-muted font-medium">Best day</div>
               <div className="text-2xl font-semibold mt-1">
                 {bestDay?.count ? bestDay.label : "—"}
@@ -134,7 +134,7 @@ export default function Weekly() {
                 {bestDay?.count ? `${bestDay.count} habits done` : "no data"}
               </div>
             </div>
-            <div className="card p-4">
+            <div className="border-r border-zinc-800/70 px-4 py-4">
               <div className="text-xs text-muted font-medium">
                 Top habit
               </div>
