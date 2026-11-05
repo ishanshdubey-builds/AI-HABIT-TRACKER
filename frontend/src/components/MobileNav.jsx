@@ -33,7 +33,7 @@ export default function MobileNav() {
           >
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
           </button>
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white text-sm font-semibold flex items-center justify-center">
+          <div className="w-8 h-8 rounded-sm border border-zinc-700 text-zinc-200 text-sm font-medium flex items-center justify-center">
             {user?.avatar || user?.name?.charAt(0).toUpperCase() || "U"}
           </div>
           <button
