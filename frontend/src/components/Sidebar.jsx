@@ -48,25 +48,25 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:flex md:flex-col w-64 fixed inset-y-0 left-0 z-30 glass border-r">
-      <div className="px-6 py-5 border-b divider">
+    <aside className="app-sidebar hidden md:flex md:flex-col w-64 fixed inset-y-0 left-0 z-30 border-r border-zinc-800/80 bg-[#101213]">
+      <div className="px-5 py-5 border-b border-zinc-800/70">
         <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+          <div className="w-8 h-8 border border-zinc-700 text-zinc-200 flex items-center justify-center rounded-sm">
             <Sparkles size={18} />
           </div>
-          <div className="font-semibold text-lg tracking-tight">AI Habit Tracker</div>
+          <div className="font-medium text-[13px] tracking-[.12em] uppercase text-zinc-200">Habit / Ritual</div>
         </div>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav className="flex-1 px-3 py-6 space-y-1">
         {nav.map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition ${isActive
-                ? "bg-gradient-to-r from-brand-500/15 to-brand-500/5 text-brand-700 dark:text-brand-300 ring-1 ring-brand-500/20"
-                : "text-soft hover:bg-[var(--surface-hover)]"
+              `flex items-center gap-3 px-3 py-2.5 rounded-sm text-[13px] tracking-wide transition ${isActive
+                ? "text-zinc-100 font-semibold"
+                : "text-zinc-500 hover:text-zinc-200"
               }`
             }
           >
@@ -76,7 +76,7 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div className="p-3 border-t divider space-y-1">
+      <div className="p-3 border-t border-zinc-800/70 space-y-1">
         <button
           onClick={toggle}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-soft hover:bg-[var(--surface-hover)] transition"
@@ -94,7 +94,7 @@ export default function Sidebar() {
         </button>
 
         <div className="px-2 py-2 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white font-semibold flex items-center justify-center shadow-md shadow-brand-500/30">
+          <div className="w-8 h-8 rounded-sm border border-zinc-700 text-zinc-200 font-medium flex items-center justify-center">
             {user?.avatar || user?.name?.charAt(0).toUpperCase() || "U"}
           </div>
           <div className="flex-1 min-w-0">
