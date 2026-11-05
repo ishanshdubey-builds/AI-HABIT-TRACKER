@@ -79,7 +79,7 @@ export default function Sidebar() {
       <div className="p-3 border-t border-zinc-800/70 space-y-1">
         <button
           onClick={toggle}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-soft hover:bg-[var(--surface-hover)] transition"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm text-sm text-soft hover:bg-[var(--surface-hover)] transition"
         >
           {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           {theme === "dark" ? "Light mode" : "Dark mode"}
@@ -126,7 +126,7 @@ export default function Sidebar() {
             />
           </div>
 
-          <label className="flex items-start gap-3 p-3 rounded-xl glass cursor-pointer hover:bg-[var(--surface-hover)]">
+          <label className="flex items-start gap-3 p-3 border-t border-zinc-800/70 cursor-pointer hover:bg-[var(--surface-hover)]">
             <input
               type="checkbox"
               checked={morning}
