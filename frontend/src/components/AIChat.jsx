@@ -55,16 +55,16 @@ export default function AIChat() {
     <>
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-20 md:bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-2xl shadow-brand-500/40 flex items-center justify-center hover:scale-105 active:scale-95 transition"
+        className="fixed bottom-20 md:bottom-6 right-6 z-40 w-12 h-12 border border-zinc-700 rounded-sm bg-[#171a1b] text-zinc-200 flex items-center justify-center hover:bg-[#222627] transition"
         aria-label="AI Chat"
       >
         {open ? <X size={22} /> : <MessageCircle size={22} />}
       </button>
 
       {open && (
-        <div className="fixed bottom-36 md:bottom-24 right-6 z-40 w-[min(92vw,380px)] h-[min(70vh,520px)] glass-strong rounded-2xl flex flex-col animate-slide-up shadow-2xl overflow-hidden">
+        <div className="fixed bottom-36 md:bottom-24 right-6 z-40 w-[min(92vw,440px)] h-[min(72vh,580px)] bg-[#111415] border border-zinc-800 flex flex-col animate-slide-up overflow-hidden">
           <div className="px-4 py-3 border-b divider flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-md shadow-brand-500/30">
+            <div className="w-7 h-7 border border-zinc-700 text-zinc-200 rounded-sm flex items-center justify-center">
               <Sparkles size={14} />
             </div>
             <div>
@@ -75,21 +75,15 @@ export default function AIChat() {
 
           <div
             ref={scrollRef}
-            className="flex-1 overflow-y-auto px-4 py-3 space-y-3"
+            className="chat-stream flex-1 overflow-y-auto px-5 py-5"
           >
             {messages.map((m, i) => (
               <div
                 key={i}
-                className={`flex ${
-                  m.role === "user" ? "justify-end" : "justify-start"
-                }`}
+                className={`chat-entry ${m.role === "user" ? "chat-user" : "chat-assistant"}`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
-                    m.role === "user"
-                      ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white rounded-br-md shadow-md shadow-brand-500/30"
-                      : "glass rounded-bl-md"
-                  }`}
+                  className={`chat-copy max-w-full text-sm leading-[1.8] ${m.role === "user" ? "chat-copy-user" : "chat-copy-assistant"}`}
                 >
                   {m.role === "user" ? m.content : <Markdown>{m.content}</Markdown>}
                 </div>
@@ -97,7 +91,7 @@ export default function AIChat() {
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="glass rounded-2xl rounded-bl-md px-3.5 py-2.5 text-sm text-soft flex items-center gap-2">
+                <div className="text-sm text-muted flex items-center gap-2 py-3 border-t border-zinc-800/70">
                   <RefreshCw size={12} className="animate-spin" />
                   Thinking...
                 </div>
@@ -109,7 +103,7 @@ export default function AIChat() {
                   <button
                     key={i}
                     onClick={() => send(s)}
-                    className="block w-full text-left text-xs rounded-lg glass hover:bg-[var(--surface-hover)] px-3 py-2 text-soft"
+                    className="block w-full text-left text-xs border-t border-zinc-800/70 hover:text-zinc-100 px-1 py-3 text-zinc-400"
                   >
                     {s}
                   </button>
@@ -123,7 +117,7 @@ export default function AIChat() {
               e.preventDefault();
               send();
             }}
-            className="p-3 border-t divider flex gap-2"
+            className="p-4 border-t border-zinc-800/80 flex gap-2"
           >
             <input
               className="input"
